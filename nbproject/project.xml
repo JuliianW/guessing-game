@@ -3,7 +3,7 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
-            <name>uebung7</name>
+            <name>guessing-game</name>
         </data>
     </configuration>
 </project>
