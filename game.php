@@ -6,6 +6,7 @@ session_start();
     <head>
         <meta charset="UTF-8">
         <title>Game</title>
+        <!-- Test commit! -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     </head>
