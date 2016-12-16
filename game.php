@@ -49,7 +49,9 @@ session_start();
             </table>
             <div class="row">
                 <div class="col-sm-4">
-                    <h3>Input</h3>
+                    <div class = "well">
+                        <h3>Input</h3><hr>
+                    <h4>Your guess!</h4>
 
                     <form action="#" method="post">
                         <label>
@@ -59,17 +61,38 @@ session_start();
                                 <option value="paris">Paris</option>
                             </select>
                         </label>
-                        <input type="submit" value="Guess!">
+                    <input type="submit" class="btn btn-primary" value="Guess!">
+                    <input type="submit" class="btn btn-danger" name="cancel" value="Save & Exit!">
                     </form>
+                    
+                    </div>
 
                     <?php
+                    if(isset($_POST['cancel'])){
+                        updateBoards();
+                    }
+                    
                     $cityform = $_POST['cityform'];
 
                     $servername = "localhost";
                     $username = "root";
                     $password = "root";
                     $dbname = "sightsgamedb";
+                    
+                    // Create connection
+                    $conn = new mysqli($servername, $username, $password, $dbname);
 
+                    
+                    function updateBoards(){  
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        $sql = "INSERT INTO 'usr' ('id' , 'username', 'points', 'percentage', 'date') VALUES (NULL,'".$_SESSION['usr']."', '".$_SESSION['right']."', '".$_SESSION['percent']."', '".  date('Y-m-j')."' )";
+                        if ($conn->query($sql) === TRUE) {
+                            echo "New record created successfully";
+                        } else {
+                            echo "Error: " . $sql . "<br>" . $conn->error;
+                        }
+                    }
+                    
                     function checkAnswers($cityform, $citydb) {
                         if ($cityform === $citydb) {
                             $_SESSION['right'] = $_SESSION['right'] + 1;
@@ -85,12 +108,11 @@ session_start();
                     echo "</div>";
 
                     echo "<div class='col-sm-4'>";
+                    echo "<div class='well'>";
                     echo "<h3>Image</h3>";
 
                     checkAnswers($cityform, $_SESSION['citydb']);
 
-                    // Create connection
-                    $conn = new mysqli($servername, $username, $password, $dbname);
 
                     //rnd img anzeigen
                     $rnd = rand(1, 3);
@@ -101,24 +123,35 @@ session_start();
 
                     echo "<img src=" . $row1['imgpath'] . "  width='100%'>";
                     echo "</div>";
+                    echo "</div>";
+                    
+                    
+                    $sql = "SELECT * FROM usr";
+                    $result = $conn->query($sql);
+                    
+                   
                     ?>
                     <div class="col-sm-4">
+                        <div class='well'>
                         <h3>Leaderboards</h3>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>User</th>
-                                    <th>right</th>
+                                    <th>Points</th>
                                     <th>%</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>element</td> //loop entrys sort after highest right answers
-                                </tr>
-                            </tbody>
+                                    <?php
+                                    while($row = $result->fetch_assoc()) {
+                                        echo "<tr><td> test </td><td>" . $row["username"]. "</td><td>" . $row["points"]."</td><td>".$row['percentage']."</td></tr>";
+                                    }      ?>                           
+                                
+                           </tbody>
                         </table>
+                        </div>
                     </div>    
                 </div>
                 </body>
