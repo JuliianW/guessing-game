@@ -4,3 +4,4 @@ features
 - Dropdown guessing
 - random img selection
 - leaderboards
+- backend for adding cities
